@@ -3,7 +3,8 @@ package ro.tm.siit.homework.w7d1.pairing;
 public class Teacher {
 	private String nameTeacher;
 	private float[] noteTeacher;
-	
+	private int countMedii=0;
+	private float[] ranks=new float[3];
 	
 	public Teacher(String nameTeacher) {
 		this.nameTeacher = nameTeacher;
@@ -21,6 +22,14 @@ public class Teacher {
 
 	public float[] getNoteTeacher() {
 		return noteTeacher;
+	}
+
+	public int getCountMedii() {
+		return countMedii;
+	}
+
+	public float[] getRanks() {
+		return ranks;
 	}
 
 //	public static float[] getTeacherRank() {

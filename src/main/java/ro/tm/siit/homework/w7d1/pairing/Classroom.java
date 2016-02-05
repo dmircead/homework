@@ -7,14 +7,13 @@ public class Classroom  {
 	private static Teacher teacher;
 	private static Course course;
 	private int semester;
-	private  static float[] teacherRank=new float[3];
 	static  int ind=0;
+	
 	public Classroom(){
 		teacher = new Teacher("Madalin");
 		course = new Course("Java");
 	}
 	public Classroom(int sem) {
-		
 		this.semester=sem;
 		System.out.println("Semester: "+sem);
 	}
@@ -33,10 +32,6 @@ public class Classroom  {
 
 	public int getSem() {
 		return semester;
-	}
-
-	public  float[] getTeacherRank() {
-		return teacherRank;
 	}
 
 	public static Student[] initStudents() {
@@ -98,37 +93,34 @@ public class Classroom  {
 	}
 
 	public void  rankTeacher() {
-		
-		
+		int semT=1;
 		float suma=0;
 		for (int i = 0; i < getStudentsPresent().length; i++) {
-		
 			suma+=getStudentsPresent()[i].mediaSem(getSem());
-			
 		}
 		
-		getTeacherRank()[ind++]=suma;
-		for(int j=0; j<getTeacherRank().length;j++){
-			if(!(getTeacherRank()[j]==0)){
-			System.out.println("Teacher rank is: "+getTeacherRank()[j]+" for semester "+getSem());
+		teacher.getRanks()[ind++]=suma;
+		for(int j=0; j<teacher.getRanks().length;j++){
+			if(!(teacher.getRanks()[j]==0)){
+				System.out.println("Teacher rank is: "+teacher.getRanks()[j]+" for semester "+semT);
 			}
+			semT++;
 		}
 		
 		if(getSem()>1&&getSem()<3){
-			if (getTeacherRank()[1]>getTeacherRank()[0]){
+			if (teacher.getRanks()[1]>teacher.getRanks()[0]){
 				System.out.println("Teacher rank has increased...from semester "+(getSem()-1));
 			}else{
 				System.out.println("Teacher rank has decreased...from semester "+(getSem()-1));
 			}
-			
 		}
 		if(getSem()>2){
-			if (getTeacherRank()[2]>getTeacherRank()[1]){
+			if (teacher.getRanks()[2]>teacher.getRanks()[1]){
 				System.out.println("Teacher rank has increased...from semester "+(getSem()-1));
 			}else{
 				System.out.println("Teacher rank has decreased...from semester "+(getSem()-1));
 			}
 		}
-		System.out.println(Arrays.toString(getTeacherRank()));
+		System.out.println(Arrays.toString(teacher.getRanks()));
 	}
 }
