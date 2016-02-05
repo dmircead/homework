@@ -19,10 +19,6 @@ public class Notes {
 		note=NoteGen(note);
 	}
 
-//	public float[] initNotes() {
-//		return NoteGen(getNote());
-//	}
-
 	public float[] getNote() {
 		return this.note;
 	}
@@ -55,7 +51,7 @@ public class Notes {
 	}
 	
 	/**
-	 * Used to input notes from console it uses method valid from Teacher class
+	 * Used to input notes from console it uses method valid 
 	 * to validate the input
 	 * 
 	 * @param xnote

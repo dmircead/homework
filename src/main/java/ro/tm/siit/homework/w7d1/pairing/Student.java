@@ -21,7 +21,6 @@ public class Student {
 	}
 
 	public float[] getMediaStudents() {
-//		Arrays.sort(this.mediaStudents);
 		return this. mediaStudents;
 	}
 
@@ -50,7 +49,6 @@ public class Student {
 						System.out.println(getMediaStudents()[j]);
 					}
 				}
-//		System.out.println(getMediaStudents());
 			}
 	public float mediaSem(int sem){
 		if(sem==1){
@@ -69,15 +67,13 @@ public class Student {
 			if (getMediaStudents()[i]>max)
 				max=getMediaStudents()[i];
 		}
-//		System.out.println("Media cea mai mare este: "+max);
 		return max;
 	}
 	
 	
 	
 	/**
-	 * used to set the media for each student in @param student array it calls
-	 * Media() from Teacher class
+	 * 
 	 * 
 	 * @param student
 	 */
@@ -88,13 +84,9 @@ public class Student {
 		for (int i = 0; i < getNotesem().length; i++) {
 			if (getNotesem()[i] != null) {
 				temp = getNotesem()[i].setMedia();
-				// setMedia(temp);
 				mediaArr[count++] = temp;
 			}
-
-			// System.out.println(temp);
 		}
-		// System.out.println(Arrays.toString(mediaArr));
 		return temp;
 	}
 
