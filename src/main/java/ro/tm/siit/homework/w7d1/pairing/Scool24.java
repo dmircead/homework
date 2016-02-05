@@ -4,8 +4,10 @@ public class Scool24 {
 
 	public static void main(String[] args) {
 		Classroom.initStudents();
+		Classroom classrom =new Classroom();
 		semester1();
 		semester2();
+		
 	}
 	public static void semester1(){
 		Classroom c1=new Classroom(1);

@@ -1,14 +1,20 @@
 package ro.tm.siit.homework.w7d1.pairing;
 
-public class Classroom {
-	private static Student[] studentsPresent = new Student[2];
-	private Teacher teacher;
-	private Course course;
-	private int semester;
+import java.util.Arrays;
 
-	public Classroom(int sem) {
+public class Classroom  {
+	private static final Student[] studentsPresent = new Student[2];
+	private static Teacher teacher;
+	private static Course course;
+	private int semester;
+	private  static float[] teacherRank=new float[3];
+	static  int ind=0;
+	public Classroom(){
 		teacher = new Teacher("Madalin");
 		course = new Course("Java");
+	}
+	public Classroom(int sem) {
+		
 		this.semester=sem;
 		System.out.println("Semester: "+sem);
 	}
@@ -29,7 +35,12 @@ public class Classroom {
 		return semester;
 	}
 
+	public  float[] getTeacherRank() {
+		return teacherRank;
+	}
+
 	public static Student[] initStudents() {
+	
 		for (int i = 0; i < getStudentsPresent().length; i++) {
 			getStudentsPresent()[i] = new Student(String.valueOf(i + 1));
 		}
@@ -87,24 +98,24 @@ public class Classroom {
 	}
 
 	public void  rankTeacher() {
-		int ind=0;
-		float[] temp = new float[3];
+		
+		
 		float suma=0;
 		for (int i = 0; i < getStudentsPresent().length; i++) {
 		
 			suma+=getStudentsPresent()[i].mediaSem(getSem());
-		
+			
 		}
 		
-		temp[ind++]=suma;
-		for(int j=0; j<temp.length;j++){
-			if(!(temp[j]==0)){
-			System.out.println("Teacher rank is: "+temp[j]+" for semester "+getSem());
+		getTeacherRank()[ind++]=suma;
+		for(int j=0; j<getTeacherRank().length;j++){
+			if(!(getTeacherRank()[j]==0)){
+			System.out.println("Teacher rank is: "+getTeacherRank()[j]+" for semester "+getSem());
 			}
 		}
 		
 		if(getSem()>1&&getSem()<3){
-			if (temp[1]>temp[0]){
+			if (getTeacherRank()[1]>getTeacherRank()[0]){
 				System.out.println("Teacher rank has increased...from semester "+(getSem()-1));
 			}else{
 				System.out.println("Teacher rank has decreased...from semester "+(getSem()-1));
@@ -112,11 +123,12 @@ public class Classroom {
 			
 		}
 		if(getSem()>2){
-			if (temp[2]>temp[1]){
+			if (getTeacherRank()[2]>getTeacherRank()[1]){
 				System.out.println("Teacher rank has increased...from semester "+(getSem()-1));
 			}else{
 				System.out.println("Teacher rank has decreased...from semester "+(getSem()-1));
 			}
 		}
+		System.out.println(Arrays.toString(getTeacherRank()));
 	}
 }
