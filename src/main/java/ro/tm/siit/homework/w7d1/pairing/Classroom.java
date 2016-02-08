@@ -73,10 +73,23 @@ public class Classroom {
 		}
 		System.out.println(mpair.toString());
 		while (mpair.size() > 0) {
+			Student stMax = null;
+			Student stMin=null;
 			Object maxM = Collections.max(mpair);
 			Object minM = Collections.min(mpair);
+			iMax = mpair.indexOf(maxM);
+			for (int i = 0; i < getStudentsPresent().length; i++) {
+			if(maxM.equals(getStudentsPresent()[i].mediaSem(getSem()))){
+				 stMax=getStudentsPresent()[i];
+				}
+			if(minM.equals(getStudentsPresent()[i].mediaSem(getSem()))){
+				stMin=getStudentsPresent()[i];
+			}
+			
+			}
+			
 			System.out
-					.println("Grouping student having a media of " + maxM + " with Student having a media of " + minM);
+			.println("Grouping student "+stMax+" having a media of "+maxM + " with Student "+stMin+" having a media of " + minM);
 
 			mpair.remove(maxM);
 			mpair.remove(minM);
