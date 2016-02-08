@@ -8,7 +8,7 @@ public class Classroom {
 	private static final Student[] studentsPresent = new Student[5];
 	private static Teacher teacher;
 	private static Course course;
-	private int semester;
+	private int semester=3;
 	static int ind = 0;
 
 	public Classroom() {

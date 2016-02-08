@@ -5,11 +5,12 @@ public class Student {
 	private Notes[] notesem;
 	private int counter = 0;
 	int countmedia=0;
+	Classroom  csem;
 	private float[] mediaStudents=new float[3];
 
 	public Student(String nameStudent) {
 		this.nameStudent = nameStudent;
-		notesem = new Notes[2];
+		notesem = new Notes[3];
 	}
 
 	public String getNameStudent() {
@@ -78,7 +79,7 @@ public class Student {
 	public float SetMedia() {
 		float temp = 0;
 		int count = 0;
-		float[] mediaArr = new float[2];
+		float[] mediaArr = new float[getNotesem().length];
 		for (int i = 0; i < getNotesem().length; i++) {
 			if (getNotesem()[i] != null) {
 				temp = getNotesem()[i].setMedia();

@@ -7,6 +7,7 @@ public class Scool24 {
 		Classroom classrom =new Classroom();
 		semester1();
 		semester2();
+		semester3();
 		
 	}
 	public static void semester1(){
@@ -27,5 +28,15 @@ public class Scool24 {
 		c2.rankTeacher();
 //		c2.pair();
 		c2.pairing();
+	}
+	public static void semester3(){
+		Classroom c3=new Classroom(3);
+		c3.examStudents();
+		c3.media();
+		c3.catalog();
+		c3.printMediaSem();
+		c3.rankTeacher();
+//		c2.pair();
+		c3.pairing();
 	}
 }
