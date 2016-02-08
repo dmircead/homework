@@ -1,6 +1,8 @@
 package ro.tm.siit.homework.w7d1.pairing;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Notes {
@@ -8,22 +10,23 @@ public class Notes {
 	private Teacher teachNotes;
 	private Course courseNotes;
 	private Student studNotes;
-	private float[] note=null;
-	
+	private float[] note = null;
+	Random random=new Random();
 
 	public Notes(Teacher teachNotes, Course courseNotes) {
 		this.teachNotes = teachNotes;
 		this.courseNotes = courseNotes;
 		this.studNotes = studNotes;
 		this.note = new float[teachNotes.getNoteTeacher().length];
-		note=NoteGen(note);
+//		note = NoteGen(note);
+		note=randomNotes(note);
 	}
 
 	public float[] getNote() {
 		return this.note;
 	}
-	
-	public float setMedia(){
+
+	public float setMedia() {
 		return calculMedia(getNote());
 	}
 
@@ -31,11 +34,24 @@ public class Notes {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return Arrays.toString(getNote());
-		
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////////
-	
+	public float[] randomNotes(float[] rnote){
+		double temp=0;
+		double temp2=0;
+		for (int i = 0; i < rnote.length; i++) {
+			temp2= (Math.random()*9)+1;
+			 temp = Math.round(temp2*100.0)/100.0;
+			 DecimalFormat df = new DecimalFormat("###.##");
+			 df.format(temp);
+			rnote[i]=(float) temp;
+		}
+		
+		return rnote;
+		
+	}
 	/**
 	 * used as the formula to calculate media for students
 	 * 
@@ -49,10 +65,10 @@ public class Notes {
 		}
 		return media = media / xmedia.length;
 	}
-	
+
 	/**
-	 * Used to input notes from console it uses method valid 
-	 * to validate the input
+	 * Used to input notes from console it uses method valid to validate the
+	 * input
 	 * 
 	 * @param xnote
 	 * @return notetemp[] containing notes from input

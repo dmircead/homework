@@ -2,7 +2,7 @@ package ro.tm.siit.homework.w7d1.pairing;
 
 public class Student {
 	private String nameStudent;
-	protected Notes[] notesem;
+	private Notes[] notesem;
 	private int counter = 0;
 	int countmedia=0;
 	private float[] mediaStudents=new float[3];
@@ -69,8 +69,6 @@ public class Student {
 		}
 		return max;
 	}
-	
-	
 	
 	/**
 	 * 
