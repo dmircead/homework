@@ -4,7 +4,7 @@ public class Teacher {
 	private String nameTeacher;
 	private float[] noteTeacher;
 	private int countMedii=0;
-	private float[] ranks=new float[3];
+	private float[] ranks=new float[Classroom.getSem()];
 	
 	public Teacher(String nameTeacher) {
 		this.nameTeacher = nameTeacher;

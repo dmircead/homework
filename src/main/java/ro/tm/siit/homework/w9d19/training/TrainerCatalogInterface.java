@@ -7,11 +7,5 @@ package ro.tm.siit.homework.w9d19.training;
  */
 public interface TrainerCatalogInterface extends SiteManagerInterface {
 
-	/**
-	 * 
-	 * @param name
-	 * @param grade
-	 * @return
-	 */
-	public Trainee addGrades(String name, int grade);
+	public void addGrades(String name, int grade);
 }

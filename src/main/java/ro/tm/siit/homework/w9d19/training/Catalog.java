@@ -8,60 +8,76 @@ import java.util.Arrays;
  *
  */
 public class Catalog implements SiteManagerInterface {
-	private String participant;
-	private int[] grades = new int[3];
-	private String[] participants = new String[4];
-	int count = 0;
+
+	private static Participant[] participants = new Participant[4];
 
 	/**
-	 * Constructor for class sets up 4 participants with name from 1 to 4
+	 * method to create new participants
 	 */
-	public Catalog() {
+	public void createParticipants() {
 		for (int i = 0; i < getParticipants().length; i++) {
-			getParticipants()[i] = "Participant " + String.valueOf(i + 1);
+			participants[i] = new Participant("Participant " + String.valueOf(i + 1));
+		}
+	}
+
+	/**
+	 * 
+	 * @return participants
+	 */
+	public Participant[] getParticipants() {
+		return participants;
+	}
+
+	/**
+	 * method to display grades
+	 */
+	@Override
+	public void printGrades() {
+		for (int i = 0; i < getParticipants().length; i++) {
+			System.out.println("Grades for " + getParticipants()[i]);
+			System.out.println(Arrays.toString(getParticipants()[i].getGrades()));
 		}
 
 	}
 
 	/**
-	 * 
-	 * @return participant
-	 */
-	public String getParticipant() {
-		return participant;
-	}
-
-	/**
-	 * 
-	 * @return participants array
-	 */
-	public String[] getParticipants() {
-		return participants;
-	}
-
-	/**
-	 * 
-	 * @return grades
-	 */
-	public int[] getGrades() {
-		return grades;
-	}
-
-	/**
-	 * method implemented from SiteManagerInterface
-	 */
-	@Override
-	public void printGrades() {
-		System.out.println(Arrays.toString(getGrades()));
-
-	}
-
-	/**
-	 * method implemented from SiteManagerInterface
+	 * method to display total participants
 	 */
 	@Override
 	public void printParticipants() {
-		System.out.println("There are " + Arrays.toString(getParticipants()) + " participants enrolled...");
+		System.out.println("Number of participants is: " + getParticipants().length);
+		System.out.println(Arrays.toString(getParticipants()));
 
 	}
+
+	/**
+	 * method to display Participant name based on @param name
+	 */
+
+	@Override
+	public void printParticipantGrade(String name) {
+		for (int i = 0; i < getParticipants().length; i++) {
+			if (getParticipants()[i].getName().equals(name)) {
+				System.out.println("Grades for " + getParticipants()[i] + " are: ");
+				getParticipants()[i].printNotes();
+				// System.out.println(Arrays.toString(getParticipants()[i].getGrades()));
+			}
+		}
+
+	}
+
+	/**
+	 * method to display media for participants
+	 */
+	@Override
+	public void printMedia() {
+		int total = 0;
+		for (int i = 0; i < getParticipants().length; i++) {
+			total = getParticipants()[i].sumMedia();
+			int average = total / getParticipants().length;
+			System.out.println("Meidia for " + getParticipants()[i] + " is " + average);
+
+		}
+	}
+
 }

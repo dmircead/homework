@@ -5,12 +5,11 @@ public class Student {
 	private Notes[] notesem;
 	private int counter = 0;
 	int countmedia=0;
-	Classroom  csem;
-	private float[] mediaStudents=new float[3];
+	private float[] mediaStudents=new float[Classroom.getSem()];
 
 	public Student(String nameStudent) {
 		this.nameStudent = nameStudent;
-		notesem = new Notes[3];
+		notesem = new Notes[Classroom.getSem()];
 	}
 
 	public String getNameStudent() {

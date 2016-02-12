@@ -8,7 +8,6 @@ public class Scool24 {
 		semester1();
 		semester2();
 		semester3();
-		
 	}
 	public static void semester1(){
 		Classroom c1=new Classroom(1);

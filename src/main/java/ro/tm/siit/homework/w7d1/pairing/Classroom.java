@@ -8,7 +8,7 @@ public class Classroom {
 	private static final Student[] studentsPresent = new Student[5];
 	private static Teacher teacher;
 	private static Course course;
-	private int semester=3;
+	private static  int semester ;
 	static int ind = 0;
 
 	public Classroom() {
@@ -18,7 +18,10 @@ public class Classroom {
 
 	public Classroom(int sem) {
 		this.semester = sem;
+		System.out.println();
 		System.out.println("Semester: " + sem);
+		System.out.println("######################################################################################");
+		System.out.println();
 	}
 
 	public static Student[] getStudentsPresent() {
@@ -33,12 +36,12 @@ public class Classroom {
 		return course;
 	}
 
-	public int getSem() {
+	public static  int getSem() {
 		return semester;
 	}
 
 	public static Student[] initStudents() {
-
+		semester=3;
 		for (int i = 0; i < getStudentsPresent().length; i++) {
 			getStudentsPresent()[i] = new Student(String.valueOf(i + 1));
 		}
@@ -69,27 +72,25 @@ public class Classroom {
 		int iMin = 0;
 		for (int i = 0; i < getStudentsPresent().length; i++) {
 			mpair.add(getStudentsPresent()[i].mediaSem(getSem()));
-			// System.out.println(getStudentsPresent()[i].mediaSem(getSem()));
 		}
 		System.out.println(mpair.toString());
 		while (mpair.size() > 0) {
 			Student stMax = null;
-			Student stMin=null;
+			Student stMin = null;
 			Object maxM = Collections.max(mpair);
 			Object minM = Collections.min(mpair);
-			iMax = mpair.indexOf(maxM);
 			for (int i = 0; i < getStudentsPresent().length; i++) {
-			if(maxM.equals(getStudentsPresent()[i].mediaSem(getSem()))){
-				 stMax=getStudentsPresent()[i];
+				if (maxM.equals(getStudentsPresent()[i].mediaSem(getSem()))) {
+					stMax = getStudentsPresent()[i];
 				}
-			if(minM.equals(getStudentsPresent()[i].mediaSem(getSem()))){
-				stMin=getStudentsPresent()[i];
+				if (minM.equals(getStudentsPresent()[i].mediaSem(getSem()))) {
+					stMin = getStudentsPresent()[i];
+				}
+
 			}
-			
-			}
-			
-			System.out
-			.println("Grouping student "+stMax+" having a media of "+maxM + " with Student "+stMin+" having a media of " + minM);
+
+			System.out.println("Grouping student " + stMax + " having a media of " + maxM + " with Student " + stMin
+					+ " having a media of " + minM);
 
 			mpair.remove(maxM);
 			mpair.remove(minM);

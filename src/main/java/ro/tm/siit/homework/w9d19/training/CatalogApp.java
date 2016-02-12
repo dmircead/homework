@@ -4,11 +4,20 @@ public class CatalogApp {
 
 	public static void main(String[] args) {
 		Catalog catalog = new Catalog();
-
-		Trainee t = new Trainee();
-		t.addGrades("Participant 1", 8).addGrades("Participant 1", 9).addGrades("Participant 1", 7);
-		t.printGrades();
-		t.printParticipants();
+		catalog.createParticipants();
+		Trainee ct = new Trainee();
+		catalog.printParticipants();
+		ct.addGrades("Participant 1", 8);
+		ct.addGrades("Participant 2", 2);
+		ct.addGrades("Participant 1", 4);
+		ct.addGrades("Participant 3", 5);
+		ct.addGrades("Participant 4", 3);
+		ct.addGrades("Participant 1", 6);
+		ct.addGrades("Participant 5", 9);
+		ct.addGrades("Participant 1", 1);
+		catalog.printGrades();
+		ct.printParticipantGrade("Participant 1");
+		catalog.printMedia();
 	}
 
 }
