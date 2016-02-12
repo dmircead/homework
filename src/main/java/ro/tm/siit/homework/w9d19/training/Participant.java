@@ -46,8 +46,9 @@ public class Participant {
 		for (int i = 0; i < getGrades().length; i++) {
 			if (!(getGrades()[i] == 0))
 				System.out.printf("%4d", getGrades()[i]);
-			System.out.println();
+			
 		}
+		System.out.println();
 	}
 
 	/**
