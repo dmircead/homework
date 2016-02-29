@@ -16,7 +16,7 @@ public class Trainee extends Catalog implements TrainerCatalogInterface {
 			if (getParticipants()[i].count < getParticipants()[i].getGrades().length
 					&& getParticipants()[i].getName().equals(name)) {
 				getParticipants()[i].getGrades()[getParticipants()[i].count++] = grade;
-				System.out.println("Added grade for " + getParticipants()[i]);
+				System.out.println("Added grade "+grade+" for " + getParticipants()[i]);
 			}
 		}
 	}

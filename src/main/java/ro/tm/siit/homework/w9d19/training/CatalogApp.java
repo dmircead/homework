@@ -4,6 +4,7 @@ public class CatalogApp {
 
 	public static void main(String[] args) {
 		Catalog catalog = new Catalog();
+		
 		catalog.createParticipants();
 		Trainee ct = new Trainee();
 		catalog.printParticipants();
@@ -15,9 +16,13 @@ public class CatalogApp {
 		ct.addGrades("Participant 1", 6);
 		ct.addGrades("Participant 5", 9);
 		ct.addGrades("Participant 1", 1);
+		ct.addGrades("Participant 3", 7);
+		
 		catalog.printGrades();
 		ct.printParticipantGrade("Participant 1");
 		catalog.printMedia();
+		Catalog cat = new Catalog();
+		cat.printGrades();
 	}
 
 }

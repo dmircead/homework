@@ -10,14 +10,24 @@ import java.util.Arrays;
 public class Catalog implements SiteManagerInterface {
 
 	private static Participant[] participants = new Participant[4];
+	static int contor=0;
+	/**
+	 * static initializing block for participants array available across
+	 * instances of class Catalog
+	 */
+	static {
+		for (int i = 0; i < participants.length; i++) {
+			participants[i] = new Participant("Participant " + String.valueOf(i + 1));
+		}
+		contor++;
+		System.out.println("Contor: "+ contor);
+	}
 
 	/**
 	 * method to create new participants
 	 */
 	public void createParticipants() {
-		for (int i = 0; i < getParticipants().length; i++) {
-			participants[i] = new Participant("Participant " + String.valueOf(i + 1));
-		}
+
 	}
 
 	/**
@@ -75,7 +85,7 @@ public class Catalog implements SiteManagerInterface {
 		for (int i = 0; i < getParticipants().length; i++) {
 			total = getParticipants()[i].sumMedia();
 			int average = total / getParticipants().length;
-			System.out.println("Meidia for " + getParticipants()[i] + " is " + average);
+			System.out.println("Media for " + getParticipants()[i] + " is " + average);
 
 		}
 	}
