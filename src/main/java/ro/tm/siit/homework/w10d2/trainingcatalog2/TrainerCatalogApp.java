@@ -4,14 +4,18 @@ public class TrainerCatalogApp {
 
 	public static void main(String[] args) {
 		Catalog catalog = new Catalog("Java");
-		catalog.addTrainees("mircea", "dmircead@yahoo.com");
-		catalog.addTrainees("adina", "deznanadina@yahoo.com");
-
+		initTrainee(catalog);
+	
 		TrainerCatalogInterface trainer = catalog;
 		work(trainer);
 
 		SiteManagerInterface siteManager = catalog;
 		work(siteManager);
+
+	}
+	private static void initTrainee(Catalog cat){
+		cat.addTrainees("mircea", "dmircead@gmail.com", "");
+		cat.addTrainees("adina", "adinadeznan@gmail.com", "");
 
 	}
 
@@ -20,7 +24,7 @@ public class TrainerCatalogApp {
 		trainer.addGrade("adina", 10);
 		trainer.addGrade("mircea", 4);
 		trainer.addGrade("adina", 9);
-
+		
 	}
 	/**
 	 * the site manager works with the catalog
