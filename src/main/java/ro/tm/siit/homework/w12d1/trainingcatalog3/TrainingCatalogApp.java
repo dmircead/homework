@@ -47,9 +47,9 @@ public class TrainingCatalogApp {
 		work(siteManager);
 
 		
-		mircea.sendFeedback(mircea);
+		trainer.sendFeedback(mircea);
 		mircea.sendFeedback(siteManager);
-		siteManager.sendFeedback(trainer);
+		trainer.sendFeedback(siteManager);
 		
 		//ciprian.sendFeedback(radu);
 		//ciprian.sendFeedback(ciprian);

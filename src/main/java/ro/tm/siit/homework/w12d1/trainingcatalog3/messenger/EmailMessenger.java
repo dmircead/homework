@@ -16,13 +16,17 @@ import javax.mail.internet.MimeMessage;
 import ro.tm.siit.homework.w12d1.trainingcatalog3.Messenger;
 
 /**
- * @author mco
+ * The EmailMessenger class implements Messenger interface and it send an e-mail
+ * to a person with the subject and the text message .
+ * @author mircea
  *
  */
 public class EmailMessenger implements Messenger {
 
 	private Session session;
-
+	 /**
+     * Constructor for the EmailMessenger
+     */
 	public EmailMessenger() {
 		super();
 

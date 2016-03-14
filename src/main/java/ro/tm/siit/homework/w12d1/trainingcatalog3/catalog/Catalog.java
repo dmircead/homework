@@ -13,7 +13,7 @@ import ro.tm.siit.homework.w12d1.trainingcatalog3.person.Person;
  * Catalog class implements TrainerCatalogInterface interface and model a grades
  * catalog for Scoala Informala de IT.
  * 
- * @author mcosma
+ * @author mircea
  *
  */
 public class Catalog implements TrainerCatalogInterface, TraineeCatalogInterface {
@@ -38,6 +38,12 @@ public class Catalog implements TrainerCatalogInterface, TraineeCatalogInterface
 		this.messenger = messenger;
 	}
 
+	/**
+	 * add trainee to the catalog
+	 * 
+	 * @param t
+	 *            the trainee for added
+	 */
 	public void addTrainee(Person t) {
 		this.trainees[traineesCount++] = new TraineeGrades(t);
 	}
@@ -111,6 +117,13 @@ public class Catalog implements TrainerCatalogInterface, TraineeCatalogInterface
 		return null;
 	}
 
+	/**
+	 * Returns the last grade of the trainee
+	 * 
+	 * @param name
+	 *            the name of the trainee
+	 * @return the last grade
+	 */
 	@Override
 	public int getLastGrade(String name) {
 		TraineeGrades participant = find(name);
@@ -161,9 +174,14 @@ public class Catalog implements TrainerCatalogInterface, TraineeCatalogInterface
 			return out;
 		}
 
+		/**
+		 * returns the last grades of the trainee
+		 * 
+		 * @return the last grades
+		 */
 		public int getLastGrade() {
 			int z = 0;
-			for (int i = grades.length-1; i >= 0; i--) {
+			for (int i = grades.length - 1; i >= 0; i--) {
 				if (grades[i] != 0) {
 					z = grades[i];
 					break;

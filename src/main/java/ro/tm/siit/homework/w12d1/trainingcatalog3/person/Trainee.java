@@ -8,7 +8,7 @@ import ro.tm.siit.homework.w12d1.trainingcatalog3.Messenger;
 import ro.tm.siit.homework.w12d1.trainingcatalog3.TraineeCatalogInterface;
 
 /**
- * @author mcosma
+ * @author mircea
  *
  */
 public class Trainee extends Person {
@@ -27,14 +27,13 @@ public class Trainee extends Person {
 	}
 
 	@Override
-	public void sendFeedback(Person to) {
-		if (super.checkPersonType(to)) {
+	public void sendFeedback(Person to){
+		super.sendFeedback(to);
+		if(isSendIt()){
 			 messenger.sendMessage(to.getEmail(), "my feed", "super");
 			int lastGrade = traineeTci.getLastGrade(this.getName());
-			// feedTrainee = FeedbackType.valueOfgrade(lastGrade);
 			String message = FeedbackType.valueOfgrade(lastGrade);
 			messenger.sendMessage(to.getEmail(), "my feed", message);
 		}
-		throw new IllegalArgumentException("problem !");
 	}
 }
