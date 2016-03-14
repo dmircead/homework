@@ -65,11 +65,11 @@ public abstract class Person implements FeedbackSender {
 	 * sendFeedback(ro.tm.siit.homework.w11d2.trainingcatalog.person.Person)
 	 */
 	@Override
-	public void sendFeedback(Person to) {
+	public void sendFeedback(Person to){
 		if (checkPersonType(to)) {
 			sendIt = true;
 		} else {
-			throw new IllegalArgumentException("Can't send from  " + this.getClass().getSimpleName() + " to another "
+			System.out.println("Can't send from  " + this.getClass().getSimpleName() + " to another "
 					+ to.getClass().getSimpleName());
 		}
 	}

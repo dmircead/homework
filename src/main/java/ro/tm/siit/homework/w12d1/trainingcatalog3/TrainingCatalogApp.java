@@ -49,7 +49,7 @@ public class TrainingCatalogApp {
 		
 		trainer.sendFeedback(mircea);
 		mircea.sendFeedback(siteManager);
-		trainer.sendFeedback(siteManager);
+		trainer.sendFeedback(trainer);
 		mircea.sendFeedback(mircea);
 		
 		//ciprian.sendFeedback(radu);

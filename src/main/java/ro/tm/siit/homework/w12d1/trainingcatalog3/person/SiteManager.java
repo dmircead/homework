@@ -50,7 +50,10 @@ public class SiteManager extends Person {
 
 	@Override
 	public void sendFeedback(Person to) {
-		messenger.sendMessage(to.getEmail(), "my feed", "...");
+		super.sendFeedback(to);
+		if (isSendIt()){
+			messenger.sendMessage(to.getEmail(), "my feed", "...");
+		}
 	}
 
 }
