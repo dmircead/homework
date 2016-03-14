@@ -13,7 +13,7 @@ import ro.tm.siit.homework.w12d1.trainingcatalog3.person.Trainer;
  * TrainingCatalogApp class is an application for managing the catalog at Scoala
  * Informala de IT. It offers support for trainers and site managers.
  * 
- * @author mcosma
+ * @author mircea
  *
  */
 public class TrainingCatalogApp {
@@ -50,6 +50,7 @@ public class TrainingCatalogApp {
 		trainer.sendFeedback(mircea);
 		mircea.sendFeedback(siteManager);
 		trainer.sendFeedback(siteManager);
+		mircea.sendFeedback(mircea);
 		
 		//ciprian.sendFeedback(radu);
 		//ciprian.sendFeedback(ciprian);

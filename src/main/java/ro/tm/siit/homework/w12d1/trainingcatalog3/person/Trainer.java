@@ -7,7 +7,7 @@ import ro.tm.siit.homework.w12d1.trainingcatalog3.Messenger;
 import ro.tm.siit.homework.w12d1.trainingcatalog3.TrainerCatalogInterface;
 
 /**
- * @author mco
+ * @author mircea
  *
  */
 public class Trainer extends Person {

@@ -5,7 +5,7 @@ package ro.tm.siit.homework.w12d1.trainingcatalog3;
  * is designed to give extended access to the trainers when working with a
  * catalog
  * 
- * @author mcosma
+ * @author mircea
  *
  */
 public interface TrainerCatalogInterface extends SiteManagerCatalogInterface {
