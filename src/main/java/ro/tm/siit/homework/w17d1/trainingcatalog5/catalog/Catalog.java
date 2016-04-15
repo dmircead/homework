@@ -3,25 +3,22 @@
  */
 package ro.tm.siit.homework.w17d1.trainingcatalog5.catalog;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+
 import ro.tm.siit.homework.w17d1.trainingcatalog5.Messenger;
+import ro.tm.siit.homework.w17d1.trainingcatalog5.SiteManagerCatalogInterface;
 import ro.tm.siit.homework.w17d1.trainingcatalog5.TraineeCatalogInterface;
 import ro.tm.siit.homework.w17d1.trainingcatalog5.TrainerCatalogInterface;
 import ro.tm.siit.homework.w17d1.trainingcatalog5.person.Trainee;
 import ro.tm.siit.homework.w17d1.trainingcatalog5.person.Trainer;
-
-
 
 /**
  * Catalog class implements TrainerCatalogInterface interface and model a grades
@@ -30,15 +27,18 @@ import ro.tm.siit.homework.w17d1.trainingcatalog5.person.Trainer;
  * @author mcosma
  *
  */
-public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogInterface, Serializable {
+public final class Catalog
+		implements SiteManagerCatalogInterface, TrainerCatalogInterface, TraineeCatalogInterface, Serializable {
 
-	private static Catalog instance;
+	private enum Status {
+		CREATED, STARTED, FINISHED
+	};
 
 	private Map<Trainee, List<Integer>> trainees = new HashMap<Trainee, List<Integer>>();
 	private String name;
-	private Messenger messenger;
-	private boolean started = false;
+	private transient Messenger messenger;
 	private Trainer trainer;
+	private Status status = Status.CREATED;
 
 	/**
 	 * @param name
@@ -46,7 +46,7 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 	 * @param trainees
 	 *            the trainees
 	 */
-	private Catalog(String name, Messenger messenger, Trainee... trainees) {
+	public Catalog(String name, Messenger messenger, Trainee... trainees) {
 		super();
 		this.name = name;
 		for (Trainee t : trainees) {
@@ -55,20 +55,11 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 		this.messenger = messenger;
 	}
 
-	/**
-	 * singleton method to ensure only one catalog exists
-	 * 
-	 * @param name
-	 *            the name of course
-	 * @param messenger
-	 *            the messenger that notifies students
-	 * @return a Catalog instance
-	 */
-	public static Catalog getInstance(String name, Messenger messenger) {
-		if (instance == null) {
-			instance = new Catalog(name, messenger);
+	public void setMessenger(Messenger messenger) {
+		this.messenger = messenger;
+		for (Trainee t : trainees.keySet()) {
+			t.setMessenger(messenger);
 		}
-		return instance;
 	}
 
 	/**
@@ -78,16 +69,41 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 	 *            the trainee
 	 */
 	public void addTrainee(Trainee t) {
-		if (started) {
+		if (status != Status.CREATED) {
 			throw new IllegalStateException("training already started");
+		}
+		if (this.trainees.containsKey(t)) {
+			throw new IllegalArgumentException("trainee already exist...");
 		}
 		this.trainees.put(t, new ArrayList<Integer>());
 	}
 
+	public void checkDupllicateTrainee(String name) {
+		for (Trainee t : trainees.keySet()) {
+			if (t.getName().equals(name)) {
+				throw new IllegalArgumentException("Trainee " + name + " already exist...");
+			}
+
+		}
+	}
+
 	@Override
 	public void startTraining(Trainer trainer) {
-		this.started = true;
+		this.status = Status.STARTED;
 		this.trainer = trainer;
+		System.out.println("Trainig started...");
+	}
+
+	@Override
+	public void stopTraining() {
+		this.status = Status.FINISHED;
+		System.out.println("Trainig stopped...");
+	}
+
+	@Override
+	public void createTraining() {
+		this.status = Status.CREATED;
+		System.out.println("Trainig created...");
 	}
 
 	/*
@@ -97,7 +113,7 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 	 * addGrade(java.lang.String, int)
 	 */
 	public void addGrade(String name, int grade) {
-		if (!started) {
+		if (status != Status.STARTED) {
 			throw new IllegalStateException("training not started");
 		}
 		if (grade < 0 || grade > 10) {
@@ -119,9 +135,6 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 	 * printGrades(java.lang.String)
 	 */
 	public void printGrades(String name) {
-		if (!started) {
-			throw new IllegalStateException("training not started");
-		}
 		Trainee participant = find(name);
 		System.out.println(getTraineeGrades(participant));
 
@@ -135,9 +148,6 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 	 * printCatalog()
 	 */
 	public void printCatalog() {
-		if (!started) {
-			throw new IllegalStateException("training not started");
-		}
 		System.out.println("Catalog " + name + " has " + trainees.size() + " trainees");
 		for (Trainee trainee : trainees.keySet()) {
 			System.out.println(trainee.getName() + " " + getAvgGrade(trainee));
@@ -145,15 +155,85 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ro.tm.siit.homework.w10d2.trainingcatalog.SiteManagerCatalogInterface#
+	 * displayCatalog(JTable)
+	 */
+	public void displayCatalog(JTable catalog) {
+		DefaultTableModel model = (DefaultTableModel) catalog.getModel();
+		model.setColumnCount(0);
+		model.setRowCount(0);
+		model.addColumn("Name");
+		model.addColumn("Avg Grade");
+		// model.addColumn("Last Grade");
+		// model.addColumn("Grades");
+		int row = 0;
+		for (Trainee trainee : trainees.keySet()) {
+			Object[] rowData = new Object[] { trainee.getName(), getAvgGrade(trainee) };
+			model.addRow(rowData);
+			row++;
+		}
+		
+
+	}
+
+	public AbstractTableModel createTable() {
+		AbstractTableModel tableAbstract = new AbstractTableModel() {
+			private String[] colNames = { "Name", "Average" };
+
+			@Override
+			public String getColumnName(int column) {
+				// TODO Auto-generated method stub
+				return colNames[column];
+			}
+
+			@Override
+			public Object getValueAt(int rowIndex, int columnIndex) {
+				List keys = new ArrayList(trainees.keySet());
+				Trainee trainee = (Trainee) keys.get(rowIndex);
+
+				switch (columnIndex) {
+				case 0:
+					return trainee.getName();
+
+				case 1:
+					return getAvgGrade(trainee);
+
+				}
+				return null;
+
+			}
+
+			@Override
+			public int getRowCount() {
+				return trainees.size();
+			}
+
+			@Override
+			public int getColumnCount() {
+
+				return 2;
+			}
+		};
+		tableAbstract.fireTableDataChanged();
+		return tableAbstract;
+	}
+
+	public void refresTable() {
+		createTable().fireTableDataChanged();
+		createTable().fireTableStructureChanged();
+	}
+
 	@Override
 	public int getLastGrade(String name) {
-		if (!started) {
-			throw new IllegalStateException("training not started");
-		}
 		Trainee participant = find(name);
 		List<Integer> list = trainees.get(participant);
 		if (list.isEmpty()) {
-			throw new IllegalStateException("trainee has no grade: " + name);
+			// throw new IllegalStateException("trainee has no grade: " + name);
+			return 0;
 		}
 		return list.get(list.size() - 1);
 	}
@@ -165,7 +245,8 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 	 */
 	@Override
 	public String toString() {
-		return "Catalog " + name + " has " + trainees.size() + " trainees";
+		return "Catalog " + name + " has " + trainees.size() + " trainees" + " and a hashcode of: " + hashCode()
+				+ " and status: " + this.status;
 	}
 
 	/**
@@ -175,7 +256,7 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 	 *            the name fo the trainee
 	 * @return a Trainee object or null if not found
 	 */
-	private Trainee find(String name) {
+	public Trainee find(String name) {
 		for (Trainee t : trainees.keySet()) {
 			if (t.getName().equals(name)) {
 				return t;
@@ -205,7 +286,7 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 	 * @param list
 	 * @return
 	 */
-	private String getTraineeGrades(Trainee trainee) {
+	public String getTraineeGrades(Trainee trainee) {
 		List<Integer> list = trainees.get(trainee);
 		String out = trainee.getName() + " : ";
 		for (Integer i : list) {
@@ -213,38 +294,9 @@ public final class Catalog  implements TrainerCatalogInterface, TraineeCatalogIn
 		}
 		return out;
 	}
-	
-	public List<Trainee> traineesForGui(){
-		List<Trainee> keyList = new ArrayList<Trainee>(trainees.keySet());
-		return keyList;
-	}
 
-	public Trainer getTrainer() {
-		return trainer;
-	}
+	// public Status getStatus() {
+	// return status;
+	// }
 
-	public Map<Trainee, List<Integer>> getTrainees() {
-		return trainees;
-	}
-	
-	public void saveToFile(File file) throws IOException{
-		FileOutputStream fos = new FileOutputStream(file);
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		
-		oos.writeObject(getTrainer());
-		
-	}
-	
-	public void loadFile(File file) throws IOException{
-		FileInputStream fis = new FileInputStream(file);
-		ObjectInputStream ooi = new ObjectInputStream(fis);
-		
-		try {
-			this.trainees = (Map<Trainee, List<Integer>>) ooi.readObject();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 }

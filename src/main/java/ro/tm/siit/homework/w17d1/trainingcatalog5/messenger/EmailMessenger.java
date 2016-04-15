@@ -15,8 +15,6 @@ import javax.mail.internet.MimeMessage;
 
 import ro.tm.siit.homework.w17d1.trainingcatalog5.Messenger;
 
-
-
 /**
  * @author mco
  *

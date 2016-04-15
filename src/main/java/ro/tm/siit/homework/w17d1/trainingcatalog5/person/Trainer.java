@@ -3,6 +3,8 @@
  */
 package ro.tm.siit.homework.w17d1.trainingcatalog5.person;
 
+import javax.swing.JTable;
+
 import ro.tm.siit.homework.w17d1.trainingcatalog5.Messenger;
 import ro.tm.siit.homework.w17d1.trainingcatalog5.TrainerCatalogInterface;
 
@@ -25,11 +27,15 @@ public class Trainer extends Person {
 
 	public void printGrades(String string) {
 		trainerInterface.printGrades(string);
-		
+
 	}
 
 	public void printCatalog() {
 		trainerInterface.printCatalog();
+	}
+
+	public void displayCatalog(JTable catalog) {
+		trainerInterface.displayCatalog(catalog);
 	}
 
 }

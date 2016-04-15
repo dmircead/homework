@@ -7,13 +7,11 @@ import ro.tm.siit.homework.w17d1.trainingcatalog5.Messenger;
 
 public abstract class Person implements FeedbackSender, Serializable {
 
-	
-
 	protected String name;
 	
 	protected String email;
 
-	protected Messenger messenger;
+	protected transient Messenger messenger;
 
 	public Person(String name, String email, Messenger messenger) {
 		this.name = name;
@@ -42,12 +40,6 @@ public abstract class Person implements FeedbackSender, Serializable {
 		} else {
 			throw new IllegalArgumentException("cannot send feedback to self");
 		}
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return name;
 	}
 
 }

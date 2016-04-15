@@ -8,7 +8,7 @@ package ro.tm.siit.homework.w17d1.trainingcatalog5;
  * @author mcosma
  *
  */
-public interface TrainerCatalogInterface extends SiteManagerCatalogInterface {
+public interface TrainerCatalogInterface extends EmployeeCatalogInterface {
 
 	/**
 	 * adds a grade to a Trainee

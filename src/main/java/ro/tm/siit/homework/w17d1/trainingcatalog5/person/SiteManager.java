@@ -20,11 +20,17 @@ public class SiteManager extends Person {
 	public void printCatalog() {
 		siteManagerInterface.printCatalog();
 	}
-	
+
 	public void startTraining(Trainer trainer) {
 		siteManagerInterface.startTraining(trainer);
 	}
-	
+
+	public void stopTraining() {
+		siteManagerInterface.stopTraining();
+	}
+	public void createTraining(){
+		siteManagerInterface.createTraining();
+	}
 	public void addTrainee(Trainee trainee) {
 		siteManagerInterface.addTrainee(trainee);
 	}

@@ -3,8 +3,6 @@
  */
 package ro.tm.siit.homework.w17d1.trainingcatalog5.person;
 
-import java.io.Serializable;
-
 import ro.tm.siit.homework.w17d1.trainingcatalog5.Messenger;
 import ro.tm.siit.homework.w17d1.trainingcatalog5.TraineeCatalogInterface;
 
@@ -12,7 +10,7 @@ import ro.tm.siit.homework.w17d1.trainingcatalog5.TraineeCatalogInterface;
  * @author mcosma
  *
  */
-public class Trainee extends Person implements Serializable{
+public class Trainee extends Person {
 	private TraineeCatalogInterface traineeInterface;
 
 	/**
@@ -41,5 +39,13 @@ public class Trainee extends Person implements Serializable{
 		String subject = "Feedback from " + name;
 		String text = feedback.getMessage();
 		messenger.sendMessage(to.getEmail(), subject, text);
+	}
+	
+	public int getLastGrade() {
+		return traineeInterface.getLastGrade(this.getName());
+	}
+
+	public void setMessenger(Messenger messenger) {
+		this.messenger = messenger;
 	}
 }

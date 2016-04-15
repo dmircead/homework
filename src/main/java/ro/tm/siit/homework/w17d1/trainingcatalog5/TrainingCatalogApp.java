@@ -26,7 +26,7 @@ public class TrainingCatalogApp {
 	 */
 	public static void main(String[] args) {
 		Messenger messenger = SimpleMessenger.getInstance();
-		Catalog catalog = Catalog.getInstance("Java S2", messenger);
+		Catalog catalog = new Catalog("Java S2", messenger);
 
 		TraineeCatalogInterface traineeInterface = catalog;
 		Trainee florin = new Trainee("florin", "", messenger, traineeInterface);
