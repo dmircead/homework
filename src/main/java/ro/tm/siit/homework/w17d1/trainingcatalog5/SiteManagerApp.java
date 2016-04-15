@@ -100,7 +100,7 @@ public class SiteManagerApp {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new GridLayout(2, 1));
 		rightPanel.add(addTraineePanel);
-		rightPanel.add(catatlogPanel);
+//		rightPanel.add(catatlogPanel);
 		window.add(rightPanel, BorderLayout.LINE_END);
 		// window.add(addTraineePanel, BorderLayout.LINE_END);
 		// window.add(shwoGradesPanel, BorderLayout.LINE_END);
