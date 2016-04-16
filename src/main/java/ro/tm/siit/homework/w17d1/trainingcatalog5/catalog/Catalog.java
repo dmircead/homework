@@ -78,6 +78,12 @@ public final class Catalog
 		this.trainees.put(t, new ArrayList<Integer>());
 	}
 
+	/**
+	 * verifies for existing trainee in
+	 * 
+	 * @param trainees
+	 * @param name
+	 */
 	public void checkDupllicateTrainee(String name) {
 		for (Trainee t : trainees.keySet()) {
 			if (t.getName().equals(name)) {
@@ -134,10 +140,10 @@ public final class Catalog
 	 * ro.tm.siit.homework.w10d2.trainingcatalog.SiteManagerCatalogInterface#
 	 * printGrades(java.lang.String)
 	 */
-	public void printGrades(String name) {
+	public String printGrades(String name) {
 		Trainee participant = find(name);
 		System.out.println(getTraineeGrades(participant));
-
+		return getTraineeGrades(participant);
 	}
 
 	/*
@@ -168,18 +174,20 @@ public final class Catalog
 		model.setRowCount(0);
 		model.addColumn("Name");
 		model.addColumn("Avg Grade");
-		// model.addColumn("Last Grade");
-		// model.addColumn("Grades");
 		int row = 0;
 		for (Trainee trainee : trainees.keySet()) {
 			Object[] rowData = new Object[] { trainee.getName(), getAvgGrade(trainee) };
 			model.addRow(rowData);
 			row++;
 		}
-		
 
 	}
 
+	/**
+	 * implements an {@link AbstractTableModel} used by SiteManagerApp
+	 * 
+	 * @return
+	 */
 	public AbstractTableModel createTable() {
 		AbstractTableModel tableAbstract = new AbstractTableModel() {
 			private String[] colNames = { "Name", "Average" };
@@ -222,6 +230,9 @@ public final class Catalog
 		return tableAbstract;
 	}
 
+	/**
+	 * used to refresh AbstractTableModel
+	 */
 	public void refresTable() {
 		createTable().fireTableDataChanged();
 		createTable().fireTableStructureChanged();
@@ -286,17 +297,42 @@ public final class Catalog
 	 * @param list
 	 * @return
 	 */
-	public String getTraineeGrades(Trainee trainee) {
+	private String getTraineeGrades(Trainee trainee) {
 		List<Integer> list = trainees.get(trainee);
 		String out = trainee.getName() + " : ";
 		for (Integer i : list) {
-			out += i + " ";
+			out += i + " | ";
 		}
 		return out;
 	}
 
-	// public Status getStatus() {
-	// return status;
-	// }
+	/**
+	 * method udes by SiteManagerApp sets the button Created to enable
+	 * true:false
+	 * 
+	 * @return
+	 */
+	public Status getStatus() {
+		if (this.status == Status.STARTED || this.status == Status.CREATED)
+			return status;
+		return null;
+	}
 
+	/**
+	 * constructs DefaultTableModel used by TrainerApp to display grades
+	 */
+	@Override
+	public DefaultTableModel gradesTableModel(String string, JTable jtable) {
+
+		Trainee trainee = find(string);
+		DefaultTableModel model = (DefaultTableModel) jtable.getModel();
+		model.setColumnCount(0);
+		model.setRowCount(0);
+		// model.addColumn("Name");
+		model.addColumn("Grades");
+		Object[] rowData = new Object[] { getTraineeGrades(trainee) };
+		model.addRow(rowData);
+
+		return model;
+	}
 }

@@ -12,8 +12,8 @@ public class SiteManager extends Person {
 		this.siteManagerInterface = siteManager;
 	}
 
-	public void printGrades(String string) {
-		siteManagerInterface.printGrades(string);
+	public String printGrades(String string) {
+		return siteManagerInterface.printGrades(string);
 
 	}
 

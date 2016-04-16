@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -34,6 +32,12 @@ import ro.tm.siit.homework.w17d1.trainingcatalog5.person.SiteManager;
 import ro.tm.siit.homework.w17d1.trainingcatalog5.person.Trainee;
 import ro.tm.siit.homework.w17d1.trainingcatalog5.person.Trainer;
 
+/**
+ * Constructs a graphic interface to be used by Site Manager
+ * 
+ * @author mircea
+ *
+ */
 public class SiteManagerApp {
 
 	public static void main(String[] args) {
@@ -62,6 +66,13 @@ public class SiteManagerApp {
 
 	}
 
+	/**
+	 * loads Catalog and creates new one if none
+	 * 
+	 * @param messenger
+	 * @param persistence
+	 * @return
+	 */
 	private static Catalog loadCatalogGui(Messenger messenger, Persistence persistence) {
 		Catalog catalog = persistence.loadCatalog();
 		if (catalog == null) {
@@ -78,6 +89,15 @@ public class SiteManagerApp {
 
 	}
 
+	/**
+	 * creates GUI
+	 * 
+	 * @param catalog
+	 * @param messenger
+	 * @param trainer
+	 * @param siteManager
+	 * @param persistence
+	 */
 	public static void createGUI(Catalog catalog, Messenger messenger, Trainer trainer, SiteManager siteManager,
 			Persistence persistence) {
 
@@ -85,14 +105,13 @@ public class SiteManagerApp {
 		window.setSize(600, 400);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// window.getContentPane().setLayout(new GridLayout(2, 2));
 		window.getContentPane().setLayout(new BorderLayout());
-		JPanel catatlogPanel = createCatalogPanel(trainer);
+
 		TraineeCatalogInterface traineeInterface = catalog;
 		JPanel addTraineePanel = createAddTraineePanel(catalog, siteManager, messenger, traineeInterface);
 		JPanel statusPanel = createStatusPanel(catalog, siteManager, trainer);
-		JPanel bottomPanel = new JPanel();
-		JPanel shwoGradesPanel = createShowGradesPanel(catalog);
+
+		JPanel shwoGradesPanel = createShowGradesPanel(catalog, siteManager);
 		window.setJMenuBar(createMenuBar(catalog, messenger, persistence));
 
 		window.add(statusPanel, BorderLayout.PAGE_START);
@@ -100,13 +119,9 @@ public class SiteManagerApp {
 		JPanel rightPanel = new JPanel();
 		rightPanel.setLayout(new GridLayout(2, 1));
 		rightPanel.add(addTraineePanel);
-//		rightPanel.add(catatlogPanel);
 		window.add(rightPanel, BorderLayout.LINE_END);
-		// window.add(addTraineePanel, BorderLayout.LINE_END);
-		// window.add(shwoGradesPanel, BorderLayout.LINE_END);
-		// window.add(bottomPanel, BorderLayout.PAGE_END);
-		bottomPanel.setLayout(new GridLayout(2, 2));
-		bottomPanel.setPreferredSize(new Dimension(600, 50));
+		// bottomPanel.setLayout(new GridLayout(2, 2));
+		// bottomPanel.setPreferredSize(new Dimension(600, 50));
 		window.addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -130,31 +145,50 @@ public class SiteManagerApp {
 
 	}
 
-	private static JPanel createShowGradesPanel(Catalog catalog) {
+	/**
+	 * Creates Panel to display catalog and grades
+	 * 
+	 * @param catalog
+	 * @param siteManager
+	 * @return
+	 */
+	private static JPanel createShowGradesPanel(Catalog catalog, SiteManager siteManager) {
+
 		JPanel traineeGrades = new JPanel();
 		JTable tableGrades = new JTable(catalog.createTable());
 		JButton viewGradesBtn = new JButton("View Catalog");
 		JTextField gradesField = new JTextField();
+		gradesField.setEditable(false);
+		gradesField.setOpaque(false);
 		JLabel nameGrades = new JLabel("Grades");
+		nameGrades.setOpaque(true);
 		viewGradesBtn.setPreferredSize(new Dimension(60, 20));
+
 		traineeGrades.setLayout(new BorderLayout());
 		Dimension dim = traineeGrades.getPreferredSize();
 		dim.width = 250;
 		dim.height = 100;
 		traineeGrades.setPreferredSize(dim);
+
 		traineeGrades.add(viewGradesBtn, BorderLayout.PAGE_START);
 		traineeGrades.add(new JScrollPane(tableGrades), BorderLayout.CENTER);
+
 		JPanel gradesBottom = new JPanel();
+		gradesBottom.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black),
+				gradesBottom.getBorder()));
+
 		gradesBottom.setLayout(new BorderLayout());
 		gradesBottom.add(nameGrades, BorderLayout.CENTER);
 		gradesBottom.add(gradesField, BorderLayout.PAGE_END);
+		gradesBottom.setBackground(Color.orange);
+
 		traineeGrades.add(gradesBottom, BorderLayout.PAGE_END);
+
 		tableGrades.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
-
-				System.out.println(tableGrades.getValueAt(tableGrades.getSelectedRow(), 0).toString());
 				Trainee trainee = catalog.find((String) tableGrades.getValueAt(tableGrades.getSelectedRow(), 0));
-				gradesField.setText(catalog.getTraineeGrades(trainee));
+				gradesField.setText(siteManager.printGrades(trainee.getName()));
+
 			}
 		});
 
@@ -162,8 +196,8 @@ public class SiteManagerApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 catalog.refresTable();
-				 tableGrades.revalidate();
+				catalog.refresTable();
+				tableGrades.revalidate();
 				tableGrades.repaint();
 
 			}
@@ -172,6 +206,15 @@ public class SiteManagerApp {
 		return traineeGrades;
 	}
 
+	/**
+	 * creates Panel to add trainee
+	 * 
+	 * @param catalog
+	 * @param siteManager
+	 * @param messenger
+	 * @param traineeInterface
+	 * @return
+	 */
 	private static JPanel createAddTraineePanel(Catalog catalog, SiteManager siteManager, Messenger messenger,
 			TraineeCatalogInterface traineeInterface) {
 		JPanel addTraineePanel = new JPanel();
@@ -197,6 +240,8 @@ public class SiteManagerApp {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					if (traineeNameField.getText().equals(""))
+						throw new IllegalArgumentException("Please provide a name !");
 					catalog.checkDupllicateTrainee(traineeNameField.getText());
 					Trainee trainee = new Trainee(traineeNameField.getText(), " ", messenger, traineeInterface);
 					siteManager.addTrainee(trainee);
@@ -211,37 +256,14 @@ public class SiteManagerApp {
 		return addTraineePanel;
 	}
 
-	private static JPanel createCatalogPanel(Trainer trainer) {
-		JPanel catalogPanel = new JPanel();
-		catalogPanel.setLayout(new FlowLayout());
-		Dimension dim = catalogPanel.getPreferredSize();
-		dim.height = 100;
-		dim.width = 250;
-		catalogPanel.setPreferredSize(dim);
-
-		catalogPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red),
-				catalogPanel.getBorder()));
-
-		JButton nameBtn = new JButton("View grades");
-		catalogPanel.add(nameBtn, BorderLayout.PAGE_START);
-		JTable catalog = new JTable();
-
-		nameBtn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				trainer.displayCatalog(catalog);
-
-			}
-		});
-
-		JScrollPane scrollPane = new JScrollPane(catalog);
-		catalog.setFillsViewportHeight(true);
-		scrollPane.setPreferredSize(new Dimension(240, 100));
-		catalogPanel.add(scrollPane, BorderLayout.CENTER);
-
-		return catalogPanel;
-	}
+	/**
+	 * creates Panel to change status of training
+	 * 
+	 * @param catalog
+	 * @param siteManager
+	 * @param trainer
+	 * @return
+	 */
 
 	private static JPanel createStatusPanel(Catalog catalog, SiteManager siteManager, Trainer trainer) {
 		JPanel statusPanel = new JPanel();
@@ -257,6 +279,9 @@ public class SiteManagerApp {
 		statusPanel.add(createTrainingBtn);
 		statusPanel.add(startTrainingBtn);
 		statusPanel.add(stopTrainingBtn);
+
+		if (catalog.getStatus() != null)
+			createTrainingBtn.setEnabled(false);
 
 		createTrainingBtn.addActionListener(new ActionListener() {
 
@@ -288,6 +313,14 @@ public class SiteManagerApp {
 		return statusPanel;
 	}
 
+	/**
+	 * creates Menu Bar
+	 * 
+	 * @param catalog
+	 * @param messenger
+	 * @param persistence
+	 * @return
+	 */
 	private static JMenuBar createMenuBar(Catalog catalog, Messenger messenger, Persistence persistence) {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -331,6 +364,16 @@ public class SiteManagerApp {
 
 			}
 		});
+
+		loginMenu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TrainerApp trainerApp = new TrainerApp();
+				// yet to be implemented....
+			}
+		});
 		return menuBar;
 	}
+
 }

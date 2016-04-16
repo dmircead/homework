@@ -10,7 +10,7 @@ public interface EmployeeCatalogInterface {
 	 * @param name
 	 *            the name of the trainee
 	 */
-	void printGrades(String name);
+	String printGrades(String name);
 
 	/**
 	 * displays all trainees with their average grade
